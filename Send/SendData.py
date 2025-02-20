@@ -12,6 +12,7 @@ def main(argv):
     type = 'EEG'
     n_channels = 4  # Number of channels
     frequency = 1  # ความถี่ของคลื่นไซน์ (Hz)
+    
 
     help_string = 'SendData.py -s <sampling_rate> -c <channels> -n <stream_name> -t <stream_type> -f <frequency>'
     try:
@@ -56,17 +57,21 @@ def main(argv):
             for i in range(required_samples):
                 t = (sent_samples + i) / srate  # คำนวณเวลา t
 
-                # สร้างคลื่นไซน์ 4 ช่อง (แต่ละช่อง phase ต่างกัน)
-                mysample = [math.sin(2 * math.pi * frequency * t + (math.pi / 2) * ch) for ch in range(n_channels)]
+               
+                # สร้างคลื่นไซน์ 4 ช่อง (ทุกช่องจะมีเฟสเหมือนกัน) ไม่เหลือมกัน
+                mysample = [math.sin(2 * math.pi * frequency * t) for ch in range(n_channels)]
 
                 print(f"Sent Data: {mysample}")  # แสดงข้อมูลที่ส่งออก
                 outlet.push_sample(mysample)
 
             sent_samples += required_samples
-            time.sleep(0.05)
-
+            time.sleep(0.01)
+    
     except KeyboardInterrupt:
         print("\nProgram interrupted by user. Saving data...")
 
 if __name__ == '__main__':
     main(sys.argv[1:])
+
+
+
