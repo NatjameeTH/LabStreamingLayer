@@ -11,7 +11,7 @@ from pylsl import StreamInfo, StreamOutlet
 stream_name = "SendEEG_Stream"
 stream_type = "EEG"
 channel_count = 4
-sampling_rate = 300  # ลดความเร็วอัปเดตเพื่อให้ดูสมูทขึ้น
+sampling_rate = 300  
 channel_format = "float32"
 
 # สร้าง StreamInfo และ StreamOutlet
@@ -40,7 +40,7 @@ time_values = np.linspace(0, 500, 500)  # กำหนดช่วงเวล�
 def update_plot():
     global data, time_values
 
-    t = time.time()
+    t = time.time() #เวลาปัจจุบัน ณ ขณะนั้น 
     
     # กำหนดให้ทุกช่องใช้สัญญาณไซน์ที่เหมือนกัน
     freq = 5  # ความถี่ของสัญญาณ (5 Hz)
