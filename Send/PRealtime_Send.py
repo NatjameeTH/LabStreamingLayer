@@ -11,7 +11,7 @@ from pylsl import StreamInfo, StreamOutlet
 stream_name = "SendEEG_Stream"
 stream_type = "EEG"
 channel_count = 4
-sampling_rate = 300  
+sampling_rate = 100  
 channel_format = "float32"
 
 # สร้าง StreamInfo และ StreamOutlet
