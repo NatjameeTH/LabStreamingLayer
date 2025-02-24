@@ -49,7 +49,7 @@ def plot_eeg_signal(timestamps, eeg_data, num_channels=4, offset=20, time_window
 
 
 #  กำหนดพาธไฟล์ XDF ที่ได้จาก LSL LabRecorder
-file_path = ("C:\\Users\\s\\Desktop\\LSL_File\\sub-20-2\\ses-S010\\eeg\\sub-20-2_ses-S010_task-Default_run-001_eeg.xdf")
+file_path = ("C:\\Users\\s\\Desktop\\LSL_File\\sub-24-2\\ses-S001\\eeg\\sub-24-2_ses-S001_task-Default_run-001_eeg.xdf")
 #  โหลดไฟล์ XDF
 streams, header = load_xdf_file(file_path)
 if streams is None:
