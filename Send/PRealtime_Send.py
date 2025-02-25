@@ -1,4 +1,3 @@
-
 ## Plot เป็น กราฟ sine และ Realtime  
 ## ส่งกราฟไป Lab Recorder
 import time
@@ -7,16 +6,22 @@ import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtWidgets
 from pylsl import StreamInfo, StreamOutlet
 
-# ตั้งค่าพารามิเตอร์ของ Stream
+# ตั้งค่าพารามิเตอร์ของสตรีม EEG
 stream_name = "SendEEG_Stream"
 stream_type = "EEG"
 channel_count = 4
 sampling_rate = 100  
 channel_format = "float32"
 
-# สร้าง StreamInfo และ StreamOutlet
+# สร้าง StreamInfo และ StreamOutlet สำหรับ EEG
 info = StreamInfo(stream_name, stream_type, channel_count, sampling_rate, channel_format)
 outlet = StreamOutlet(info)
+
+# สร้าง StreamInfo และ StreamOutlet สำหรับ Marker
+marker_stream_name = "Marker_Stream"
+marker_stream_type = "Markers"
+marker_info = StreamInfo(marker_stream_name, marker_stream_type, 1, 0, "float32")  # 1 channel, 0 Hz (irregular rate)
+marker_outlet = StreamOutlet(marker_info)
 
 # สร้าง GUI สำหรับแสดงสัญญาณแบบ Realtime
 app = QtWidgets.QApplication([])
@@ -40,13 +45,13 @@ time_values = np.linspace(0, 500, 500)  # กำหนดช่วงเวล�
 def update_plot():
     global data, time_values
 
-    t = time.time() #เวลาปัจจุบัน ณ ขณะนั้น 
+    t = time.time()  # เวลาปัจจุบัน ณ ขณะนั้น 
+    freq = 5  # ความถี่ของคลื่นไซน์ (Hz)
     
-    # กำหนดให้ทุกช่องใช้สัญญาณไซน์ที่เหมือนกัน
-    freq = 5  # ความถี่ของสัญญาณ (5 Hz)
+    # ใช้คลื่นไซน์ความถี่ 5 Hz เหมือนกันทุกช่อง
     signal_values = np.sin(2 * np.pi * freq * t) * np.ones(channel_count)
-    
-    # ส่งข้อมูลไปยัง LSL
+
+    # ส่งข้อมูล EEG ไปยัง LSL
     outlet.push_sample(signal_values)
 
     # เลื่อนข้อมูลให้ช้าลง
@@ -57,10 +62,29 @@ def update_plot():
     for i in range(channel_count):
         curves[i].setData(time_values, data[i] + offsets[i])
 
+# ฟังก์ชันส่ง Marker ทุก ๆ 5 วินาที และแสดงเป็นเส้นแนวตั้ง
+def send_marker():
+    global marker_line
+    marker_value = [1.0]  # Marker เป็น 1.0
+    marker_outlet.push_sample(marker_value)
+    print("Marker sent:", time.time())
+
+    # แสดง marker เป็นเส้นแนวตั้ง
+    marker_time = time.time() % 500  
+    marker_line.setData([marker_time, marker_time], [-5, channel_count * 5], pen=pg.mkPen('r', width=2))
+
+# สร้างเส้น marker
+marker_line = plot.plot()
+
 # ตั้งเวลาให้อัปเดตกราฟทุก 1 / sampling_rate วินาที
 timer = QtCore.QTimer()
 timer.timeout.connect(update_plot)
 timer.start(int(1000 / sampling_rate))  # แปลงเป็น milliseconds
+
+# ตั้งเวลาให้ส่ง Marker ทุก 5 วินาที
+timer_marker = QtCore.QTimer()
+timer_marker.timeout.connect(send_marker)
+timer_marker.start(5000)  # 5000 milliseconds = 5 seconds
 
 # เริ่ม GUI event loop
 app.exec_()
