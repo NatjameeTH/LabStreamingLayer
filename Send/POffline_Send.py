@@ -50,7 +50,7 @@ def plot_eeg_signal(timestamps, eeg_data, num_channels=4, offset=20, time_window
         for marker in markers:
             # เช็คว่าเวลาเป็นช่วงที่ห่างกัน 5 วินาทีหรือไม่
             if first_marker or (marker % 5 == 0):  # เพิ่มเงื่อนไขว่า marker จะถูกแสดงทุกๆ 5 วินาที
-                plt.axvline(x=marker, color='r', linestyle='-', label='Marker Event' if first_marker else "")
+                plt.axvline(x=marker, color='r', linestyle='--', label='Marker Event' if first_marker else "")
                 first_marker = False  # ตั้งค่าหลังจากเจอ marker แรกแล้ว
 
     plt.xlabel("Time (s)")
