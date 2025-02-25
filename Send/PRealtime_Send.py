@@ -7,7 +7,7 @@ from pyqtgraph.Qt import QtCore, QtWidgets
 from pylsl import StreamInfo, StreamOutlet
 
 # ตั้งค่าพารามิเตอร์ของสตรีม EEG
-stream_name = "SendEEG_Stream"
+stream_name = "SendEEG_Stream_Online"
 stream_type = "EEG"
 channel_count = 4
 sampling_rate = 100  
@@ -18,7 +18,7 @@ info = StreamInfo(stream_name, stream_type, channel_count, sampling_rate, channe
 outlet = StreamOutlet(info)
 
 # สร้าง StreamInfo และ StreamOutlet สำหรับ Marker
-marker_stream_name = "Marker_Stream"
+marker_stream_name = "Marker_Stream_Online"
 marker_stream_type = "Markers"
 marker_info = StreamInfo(marker_stream_name, marker_stream_type, 1, 0, "float32")  # 1 channel, 0 Hz (irregular rate)
 marker_outlet = StreamOutlet(marker_info)
