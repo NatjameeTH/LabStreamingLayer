@@ -9,7 +9,7 @@ from pylsl import StreamInfo, StreamOutlet, local_clock
 
 def main(argv):
     srate = 512  # Sampling Rate (Hz)
-    name = 'SineWaveSignal'
+    name = 'SineWaveSignal_Offline'
     type = 'EEG'
     n_channels = 4  # Number of channels
     frequency = 1  # ความถี่ของคลื่นไซน์ (Hz)
