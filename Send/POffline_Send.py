@@ -31,7 +31,7 @@ def find_marker_stream(streams):
             return stream
     return None
 
-def plot_eeg_signal(timestamps, eeg_data, num_channels=8, time_window=10, markers=None):
+def plot_eeg_signal(timestamps, eeg_data, num_channels=24, time_window=10, markers=None):
     """ พล็อตสัญญาณ EEG พร้อมการตั้งค่าขนาดและช่วงเวลา """
     if eeg_data.shape[1] < 2:
         print("มีข้อมูลไม่เพียงพอสำหรับพล็อต")
@@ -67,7 +67,7 @@ def plot_eeg_signal(timestamps, eeg_data, num_channels=8, time_window=10, marker
     plt.show()
 
 #  กำหนดพาธไฟล์ XDF
-file_path = "C:\\Users\\s\\Desktop\\LSL_File\\sub-26-2\\ses-S007(24CH)\\eeg\\sub-26-2_ses-S007(24CH)_task-Default_run-001_eeg.xdf"
+file_path = "C:\\Users\\s\\Desktop\\LSL_File\\sub-26-2\\ses-S008(24CH_Sr250)\\eeg\\sub-26-2_ses-S008(24CH_Sr250)_task-Default_run-001_eeg.xdf"
 
 # โหลดไฟล์ XDF
 streams, header = load_xdf_file(file_path)
@@ -99,4 +99,4 @@ np.save("timestamps.npy", timestamps)
 print(f" บันทึกข้อมูลสำเร็จ EEG shape: {eeg_data.shape}, Timestamps shape: {timestamps.shape}")
 
 # แสดงผลสัญญาณ EEG พร้อม Marker
-plot_eeg_signal(timestamps, eeg_data, num_channels=8, time_window=10, markers=markers)
+plot_eeg_signal(timestamps, eeg_data, num_channels=24, time_window=10, markers=markers)
