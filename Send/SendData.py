@@ -11,7 +11,7 @@ def main(argv):
     srate = 512  # Sampling Rate (Hz)
     name = 'SineWaveSignal_Offline'
     type = 'EEG'
-    n_channels = 16  # Number of channels
+    n_channels = 24  # Number of channels
     frequency = 1  # ความถี่ของคลื่นไซน์ (Hz)
     
     help_string = 'SendData.py -s <sampling_rate> -c <channels> -n <stream_name> -t <stream_type> -f <frequency>'
@@ -41,7 +41,7 @@ def main(argv):
     outlet = StreamOutlet(info)
 
     # สร้าง Stream สำหรับ Marker
-    marker_info = StreamInfo('MarkerStream', 'Markers', 1, 0, 'string', 'markeruid123')
+    marker_info = StreamInfo('MarkerStream_Offline', 'Markers', 1, 0, 'string', 'markeruid123')
     marker_outlet = StreamOutlet(marker_info)
 
     print("Now sending sine wave data with trigger markers...")
