@@ -9,7 +9,7 @@ marker_data = np.load('marker_data.npy')  # ไฟล์ข้อมูล marke
 
 # แยกข้อมูล timestamp และสัญญาณ
 timestamps = signal_data[:, 0]  # คอลัมน์แรกคือ timestamp
-signals = signal_data[:, 1:]   # คอลัมน์ที่เหลือคือข้อมูลสัญญาณ (4 ช่อง)
+signals = signal_data[:, 1:]   # คอลัมน์ที่เหลือคือข้อมูลสัญญาณ 
 
 # แยกข้อมูล timestamp และ marker จาก marker_data
 marker_timestamps = marker_data[:, 0]  # timestamp ของ marker

@@ -9,7 +9,7 @@ import numpy as np
 from pylsl import StreamInfo, StreamOutlet, local_clock
 
 def main(argv):
-    srate = 512  # Sampling Rate (Hz)
+    srate = 250  # Sampling Rate (Hz)
     name = 'SineWaveSignal_Offline'
     type = 'EEG'
     n_channels = 24  # Number of channels

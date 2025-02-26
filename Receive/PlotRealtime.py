@@ -59,6 +59,7 @@ class DataInlet(Inlet):
 
                 self.save_to_csv(timestamps[new_offset:], y[new_offset:, ch_ix], ch_ix)
 
+    # Save แบบ Online เป็น csv ไว้ 
     def save_to_csv(self, timestamps, values, ch_ix):
         with open(CSV_FILE_SIGNAL, mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -78,7 +79,7 @@ class MarkerInlet(Inlet):
             self.marker_line.setPos(closest_ts)
             
             # กำหนดค่าของ Marker ที่ต้องการบันทึก (ตัวอย่าง: "Event 1" หรือค่าหมายเลข)
-            marker_value = "Event 1"  # คุณสามารถเปลี่ยนเป็นค่าที่เหมาะสมตามสถานการณ์
+            marker_value = "Event 1"  # สามารถเปลี่ยนเป็นค่าที่เหมาะสมได้
             self.save_marker_to_csv(closest_ts, marker_value)
 
     # เพิ่มฟังก์ชัน save_marker_to_csv ใน MarkerInlet
