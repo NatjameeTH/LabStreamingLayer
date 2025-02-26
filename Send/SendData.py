@@ -5,6 +5,7 @@ import sys
 import getopt
 import time
 import math
+import numpy as np
 from pylsl import StreamInfo, StreamOutlet, local_clock
 
 def main(argv):
@@ -58,7 +59,7 @@ def main(argv):
             print(f"Elapsed Time: {elapsed_time:.3f} sec, Required Samples: {required_samples}")
 
             # ส่ง Marker จะแสดงทุก 5 วินาที
-            if elapsed_time % 5.0 < 0.01: # ส่ง trigger marker เมื่อเวลาผ่านไป 5 วินาที
+            if elapsed_time % 5.0 < 0.01: # ส่ง trigger marker เมื่อเวลาผ่านไป 5 วินาที # หาร 5 ลงตัวหรือไม่ อาจมีคาดเคลื่อนด้วยได้
                 marker_outlet.push_sample(["Start"])
                 print("Sent marker: Start")
 
