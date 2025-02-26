@@ -9,7 +9,7 @@ from pylsl import StreamInfo, StreamOutlet
 # ตั้งค่าพารามิเตอร์ของสตรีม EEG
 stream_name = "SendEEG_Stream_Online"
 stream_type = "EEG"
-channel_count = 4
+channel_count = 24
 sampling_rate = 100  
 channel_format = "float32"
 
@@ -35,8 +35,8 @@ plot.setLabel('left', 'Amplitude')
 plot.setLabel('bottom', 'Time', units='s')
 
 # สร้างเส้นกราฟ 4 ช่องสัญญาณ
-colors = ['w', 'w', 'w', 'w']
-curves = [plot.plot(pen=pg.mkPen(colors[i], width=2)) for i in range(channel_count)]
+colors = ['w', 'w', 'w', 'w', 'w', 'w']  # กำหนดสีพื้นฐาน
+curves = [plot.plot(pen=pg.mkPen(colors[i % len(colors)], width=2)) for i in range(channel_count)] #หากมีช่องเพิ่มให้วนซ้ำ
 data = np.zeros((channel_count, 500))  # Buffer ขนาด 500 จุด
 offsets = np.arange(channel_count) * 5  # ทำให้เส้นกราฟแต่ละช่องไม่ทับกัน
 time_values = np.linspace(0, 500, 500)  # กำหนดช่วงเวลาเริ่มต้น
