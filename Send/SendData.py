@@ -11,7 +11,7 @@ def main(argv):
     srate = 512  # Sampling Rate (Hz)
     name = 'SineWaveSignal_Offline'
     type = 'EEG'
-    n_channels = 4  # Number of channels
+    n_channels = 16  # Number of channels
     frequency = 1  # ความถี่ของคลื่นไซน์ (Hz)
     
     help_string = 'SendData.py -s <sampling_rate> -c <channels> -n <stream_name> -t <stream_type> -f <frequency>'
