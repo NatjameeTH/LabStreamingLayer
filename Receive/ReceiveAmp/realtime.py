@@ -7,10 +7,10 @@ import csv
 from typing import List
 
 # ค่าคงที่สำหรับการแสดงผล
-PLOT_DURATION = 5  
-UPDATE_INTERVAL = 60  
-PULL_INTERVAL = 500  
-CHANNEL_OFFSET = 10  
+PLOT_DURATION = 5  # ระยะเวลาที่จะแสดงผล (วินาที)
+UPDATE_INTERVAL = 60  # มิลลิวินาที
+PULL_INTERVAL = 500  # มิลลิวินาที
+CHANNEL_OFFSET = 50  # ปรับให้เหมาะสมกับ Unicorn EEG (50 เพื่อไม่ให้ทับกัน)
 CSV_FILE_SIGNAL = "signal_data.csv"
 CSV_FILE_MARKER = "marker_data.csv"
 
@@ -23,32 +23,6 @@ class Inlet:
         )
         self.name = info.name()
         self.channel_count = info.channel_count()
-
-        # ปริ้นข้อมูลที่สำคัญเกี่ยวกับ stream
-        print("🔍 Looking for a stream...")
-        print("📌 Stream Found!")
-        print(f" Name: {self.name}")
-        print(f" Type: {info.type()}")
-        print(f" Sampling Rate: {info.nominal_srate()} Hz")
-        print(f" Channel Count: {self.channel_count}")
-        print(f" Source ID: {info.source_id()}")
-
-        # ปริ้นข้อมูลเต็มของ stream ในรูปแบบ XML โดยใช้ info.desc()
-        print("📜 Full Stream Info (XML Format):")
-        print(str(info.desc()))  # ใช้ str() แทนการใช้ to_xml()
-        
-        # ปริ้นชื่อของแต่ละช่อง
-        print("📡 Channel Names:")
-        channels = info.desc().child("channels")  # ดึงช่องทั้งหมดจาก stream info
-        for ch_ix in range(self.channel_count):
-            # ใช้ descendants เพื่อดึงข้อมูลจากแต่ละ channel
-            channel_nodes = channels.descendants("channel")  # ดึงทุกช่อง
-            channel_node = channel_nodes[ch_ix]  # เลือกช่องที่ต้องการ
-            channel_name = channel_node.child_value("label")  # ดึงค่า label ที่เป็นชื่อช่อง
-            print(f" Channel {ch_ix + 1}: {channel_name}")  # แสดงชื่อช่องจริง ๆ
-
-        print("✅ Created StreamInlet successfully!")
-
 
 class DataInlet(Inlet):
     def __init__(self, info: pylsl.StreamInfo, plt: pg.PlotItem):
@@ -85,7 +59,6 @@ class DataInlet(Inlet):
 
                 self.save_to_csv(timestamps[new_offset:], y[new_offset:, ch_ix], ch_ix)
 
-    # Save แบบ Online เป็น csv ไว้ 
     def save_to_csv(self, timestamps, values, ch_ix):
         with open(CSV_FILE_SIGNAL, mode='a', newline='') as file:
             writer = csv.writer(file)
@@ -103,16 +76,13 @@ class MarkerInlet(Inlet):
         if timestamps:
             closest_ts = min(timestamps, key=lambda ts: abs(ts - plot_time))
             self.marker_line.setPos(closest_ts)
-            
-            # กำหนดค่าของ Marker ที่ต้องการบันทึก (ตัวอย่าง: "Event 1" หรือค่าหมายเลข)
-            marker_value = "Event 1"  # สามารถเปลี่ยนเป็นค่าที่เหมาะสมได้
+            marker_value = "Event 1"
             self.save_marker_to_csv(closest_ts, marker_value)
 
-    # เพิ่มฟังก์ชัน save_marker_to_csv ใน MarkerInlet
     def save_marker_to_csv(self, timestamp, marker_value):
         with open(CSV_FILE_MARKER, mode='a', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([timestamp, marker_value])  # บันทึก Timestamp และ Marker Value
+            writer.writerow([timestamp, marker_value])
 
 
 def main():
@@ -120,15 +90,15 @@ def main():
     print("Looking for streams...")
     streams = pylsl.resolve_streams()
 
-    pw = pg.plot(title='LSL Signal Plot')
+    pw = pg.plot(title='Unicorn EEG Signal Plot')
     plt = pw.getPlotItem()
-   
+
     for info in streams:
         if info.type() == 'Markers':
             print(f"Adding marker inlet: {info.name()}")
             inlets.append(MarkerInlet(info, plt))
-        elif info.nominal_srate() > 0:
-            print(f"Adding data inlet: {info.name()}")
+        elif info.type() == 'EEG':  # รองรับ Unicorn EEG
+            print(f"Adding Unicorn EEG data inlet: {info.name()}")
             inlets.append(DataInlet(info, plt))
         else:
             print(f"Skipping unknown stream: {info.name()}")
