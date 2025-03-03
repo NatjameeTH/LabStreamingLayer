@@ -1,4 +1,4 @@
-# Online Plot แบบแยกช่อง บอกชื่อ channel ""
+# Online Plot แบบแยกช่อง บอกชื่อ channel "".
 
 import numpy as np
 import time
