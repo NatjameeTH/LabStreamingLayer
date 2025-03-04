@@ -4,7 +4,11 @@ import pylsl
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
 from typing import List
+<<<<<<< HEAD
 from datetime import datetime  # เพิ่มการใช้ datetime สำหรับ timestamp.
+=======
+from datetime import datetime  # เพิ่มการใช้ datetime สำหรับ timestamp
+>>>>>>> c93d0c65c3863aa591991212680f6f005feb519d
 
 PLOT_DURATION = 5  # จำนวนวินาทีของข้อมูลที่จะแสดง
 UPDATE_INTERVAL = 60  # ระยะเวลาที่จะใช้ในการอัปเดตกราฟ ms
