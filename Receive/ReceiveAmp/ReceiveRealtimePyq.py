@@ -35,6 +35,17 @@ class DataInlet(Inlet):
         self.buffer = np.empty(bufsize, dtype=np.float32)
         empty = np.array([])
 
+        # กำหนดชื่อช่องสัญญาณตาม Unicorn
+        self.channel_names = [
+            'EEG 1', 'EEG 2', 'EEG 3', 'EEG 4', 'EEG 5', 'EEG 6', 'EEG 7', 'EEG 8',
+            'Accelerometer X', 'Accelerometer Y', 'Accelerometer Z',
+            'Gyroscope X', 'Gyroscope Y', 'Gyroscope Z',
+            'Battery Level', 'Counter', 'Validation Indicator'
+        ]
+        self.channel_count = len(self.channel_names)  # กำหนดจำนวนช่องสัญญาณ
+
+        print(f"Channels: {self.channel_names}")  # แสดงชื่อช่องสัญญาณที่เรากำหนดเอง
+
         # สร้าง curve สำหรับแต่ละ channel
         self.curves = [pg.PlotCurveItem(x=empty, y=empty, autoDownsample=True) for _ in range(self.channel_count)]
         for i, curve in enumerate((self.curves)): # ไม่ใช้ reversed
@@ -84,12 +95,19 @@ class MarkerInlet(Inlet):
 
 
 def save_to_mne(data_inlets, marker_inlets):
+    """
     info = mne.create_info(
         ch_names=[f"Ch{i+1}" for i in range(data_inlets[0].channel_count)],  # เริ่มจาก Ch1 แทน Ch0
         sfreq=data_inlets[0].srate,
         ch_types="eeg"
     )
-
+    """
+    # ใช้ชื่อช่องสัญญาณจาก data_inlets[0].channel_names
+    info = mne.create_info(
+        ch_names=data_inlets[0].channel_names,  # ใช้ชื่อที่กำหนดไว้ใน channel_names
+        sfreq=data_inlets[0].srate,
+        ch_types="eeg"
+    )
     # ตรวจสอบข้อมูลก่อนสร้าง RawArray
     all_data = []
     for di in data_inlets:
