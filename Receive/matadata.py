@@ -16,7 +16,8 @@ def get_stream_metadata():
 
     # 📄 แสดง XML metadata ทั้งหมด
     print("\n📌 The stream's XML meta-data:")
-    print(info.as_xml())
+    xml_data = info.as_xml()
+    print(xml_data)  # พิมพ์ XML ทั้งหมด
 
     # 🏭 ดึงข้อมูลผู้ผลิต
     manufacturer = info.desc().child_value("manufacturer") if info.desc() else None
@@ -30,15 +31,16 @@ def get_stream_metadata():
     print("\n📡 Channel labels:")
     channels = info.desc().child("channels") if info.desc() else None
 
-    if channels and channels.child("channel"):
-        ch = channels.child("channel")
+    if channels:
+        # ค้นหาช่องทั้งหมดภายใน XML
         channel_labels = []
+        ch = channels.child("channel")
         while ch:
             label = ch.child_value("label")
             if label:
                 channel_labels.append(label)
             ch = ch.next_sibling()
-        
+
         if channel_labels:
             print("  " + ", ".join(channel_labels))
         else:
