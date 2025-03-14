@@ -1,3 +1,5 @@
+# รับสัญญาณ จาก g-tec Unicorn (LSL: LabRecorder)
+# Plot กราฟ แบบ Real-time ด้วย pyqtgraph
 
 import numpy as np
 import math
