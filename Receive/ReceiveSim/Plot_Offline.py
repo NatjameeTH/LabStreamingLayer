@@ -1,4 +1,6 @@
-#plot แบบ Offline 4 CH
+# นำ data ที่บันทึกเป็น numpy ที่ได้จากการ Run code (ReceiveData.py)
+# Plot กราฟ แบบ Offline ด้วย matplotlib
+
 
 import numpy as np
 import matplotlib.pyplot as plt

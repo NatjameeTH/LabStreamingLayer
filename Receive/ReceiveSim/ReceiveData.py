@@ -1,4 +1,6 @@
-# ReceiveData for Collect Data
+# รับสัญญาณ จาก OpenViBe Acquisition Server (LSL: LabRecorder)
+# โดยใช้ Driver -> Generic Oscillator
+
 
 import numpy as np
 from pylsl import StreamInlet, resolve_streams

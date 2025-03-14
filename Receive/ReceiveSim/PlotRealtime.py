@@ -1,3 +1,7 @@
+# รับสัญญาณ จาก OpenViBe Acquisition Server (LSL: LabRecorder)
+# Plot กราฟ แบบ Real-time ด้วย pyqtgraph
+
+
 import numpy as np
 import math
 import pylsl
@@ -87,7 +91,6 @@ class MarkerInlet(Inlet):
         with open(CSV_FILE_MARKER, mode='a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([timestamp, marker_value])  # บันทึก Timestamp และ Marker Value
-
 
 
 def main():
