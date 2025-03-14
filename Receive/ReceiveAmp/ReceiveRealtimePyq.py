@@ -14,7 +14,7 @@ PLOT_DURATION = 5  # จำนวนวินาทีของข้อมู�
 UPDATE_INTERVAL = 60  #กราฟจะถูกรีเฟรชหรืออัปเดตทุกๆ 60 ms
 PULL_INTERVAL = 500  
 CHANNEL_OFFSET = 6000 
-FIF_FILE = "นั่งนิ่ง_raw.fif"
+FIF_FILE = "Test_raw.fif"
 
 class Inlet:
     def __init__(self, info: pylsl.StreamInfo):
@@ -55,28 +55,49 @@ class DataInlet(Inlet):
         
         self.data = []  # เก็บข้อมูลทั้งหมด
 
+
+
     def pull_and_plot(self, plot_time, plt):
         samples, timestamps = self.inlet.pull_chunk(timeout=0.0, max_samples=self.buffer.shape[0])
         
+        #  พิมพ์ค่าของ samples และ timestamps ที่ได้รับมา
+        print(f"Raw samples: {samples}")
+        #print(f"Raw timestamps: {timestamps}")
+
         if timestamps and samples:
             timestamps = np.array(timestamps)
-            y = np.array(samples)
+            y = np.array(samples)  # แปลงเป็น numpy array เพื่อให้สามารถจัดการได้ง่าย
+
+            # ตรวจสอบขนาดของข้อมูล
+            print(f"Shape of timestamps: {timestamps.shape}")
+            print(f"Shape of y: {y.shape}")
+
             if y.shape[1] != self.channel_count:
                 print(f"Warning: Received {y.shape[1]} channels, expected {self.channel_count}")
 
             # ขยายข้อมูลเก่าใน buffer และเพิ่มข้อมูลใหม่
-            # extend เพิ่ม list ข้อมูลทีละตัว ,append เพื่อ list ข้อมูลไปทั้งก้อน
-            self.data.extend(zip(timestamps, y))  # เก็บข้อมูลทั้งหมดใน self.data
-            
+            # zip รวมหรือจับคู่ข้อมูลจาก timestamps และ y (ซึ่งอาจจะเป็นลิสต์หรือ iterable อื่น ๆ) 
+            self.data.extend(zip(timestamps, y))  # เพิ่มข้อมูลใหม่ใน self.data
+
+            # พิมพ์ข้อมูลที่ถูกเพิ่มเข้าไปใน self.data
+            print(f"Extended data (first 5 entries): {list(zip(timestamps, y))[:5]}")
+
+            # อัปเดตข้อมูลใน curves
             for ch_ix in range(self.channel_count):
                 old_x, old_y = self.curves[ch_ix].getData()
+
+                # พิมพ์ขนาดของ old_x และ old_y
+                print(f"Channel {ch_ix} - old_x shape: {old_x.shape}, old_y shape: {old_y.shape}")
+
+                # สร้าง new_x และ new_y โดยการเชื่อมข้อมูลเก่าและข้อมูลใหม่
                 new_x = np.hstack((old_x, timestamps))  # เพิ่ม timestamps ใหม่
-                new_y = np.hstack((old_y, y[:, ch_ix]))  # เพิ่มข้อมูลใหม่
+                new_y = np.hstack((old_y, y[:, ch_ix]))  # เพิ่มข้อมูลใหม่ของช่องที่ ch_ix
 
-                # แสดงข้อมูลทั้งหมด (ไม่ลบข้อมูลเก่าออก)
+                #  พิมพ์ขนาดของ new_x และ new_y
+                print(f"Channel {ch_ix} - new_x shape: {new_x.shape}, new_y shape: {new_y.shape}")
+
+                # อัปเดตข้อมูลใน curve
                 self.curves[ch_ix].setData(new_x, new_y)
-
-
 
 class MarkerInlet(Inlet):
     def __init__(self, info: pylsl.StreamInfo, plt):
@@ -95,26 +116,20 @@ class MarkerInlet(Inlet):
 
 
 def save_to_mne(data_inlets, marker_inlets):
-    """
-    info = mne.create_info(
-        ch_names=[f"Ch{i+1}" for i in range(data_inlets[0].channel_count)],  # เริ่มจาก Ch1 แทน Ch0
-        sfreq=data_inlets[0].srate,
-        ch_types="eeg"
-    )
-    """
     # ใช้ชื่อช่องสัญญาณจาก data_inlets[0].channel_names
     info = mne.create_info(
         ch_names=data_inlets[0].channel_names,  # ใช้ชื่อที่กำหนดไว้ใน channel_names
         sfreq=data_inlets[0].srate,
         ch_types="eeg"
     )
+
     # ตรวจสอบข้อมูลก่อนสร้าง RawArray
     all_data = []
     for di in data_inlets:
         if len(di.data) > 0:
             timestamps, values = zip(*di.data)  # แยก timestamps และ values ออกจากกัน
             all_data.append(np.array(values).T)  # Transpose เพื่อให้เป็น (n_channels, n_samples)
-    
+
     if not all_data:
         print("No valid data to save.")
         return
@@ -128,16 +143,23 @@ def save_to_mne(data_inlets, marker_inlets):
 
     raw = mne.io.RawArray(raw_data, info)
 
+    # แสดงข้อมูลช่องสัญญาณที่บันทึก
+    for idx, ch_name in enumerate(info["ch_names"]):
+        # แสดงค่าช่องสัญญาณ
+        print(f"Channel {ch_name} (index {idx +1}):")
+        print(f"{raw_data[idx, :10]} ... {raw_data[idx, -10:]}")  # แสดงค่าช่องสัญญาณ 10 ค่าแรกและ 10 ค่าสุดท้าย
+        print()  # เพื่อให้แต่ละช่องสัญญาณแยกจากกัน
+
     # จัดการ Marker annotations เหตุการณ์
     annotations = []
     for marker in marker_inlets:
         for ts, val in marker.markers:
             annotations.append((ts, 0, val))
-    
+
     if annotations:
         onset, duration, description = zip(*annotations)
         raw.set_annotations(mne.Annotations(onset, duration, description))
-        
+
     # ตรวจสอบว่าไฟล์มีอยู่แล้วหรือไม่
     if os.path.exists(FIF_FILE):
         # ถ้ามีไฟล์อยู่แล้ว เปลี่ยนชื่อไฟล์ใหม่ โดยเพิ่ม timestamp
@@ -147,6 +169,7 @@ def save_to_mne(data_inlets, marker_inlets):
     else:
         raw.save(FIF_FILE, overwrite=True)
         print(f"Saved data to {FIF_FILE}")
+
 
 
 def main():
