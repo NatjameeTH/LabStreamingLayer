@@ -3,7 +3,25 @@ import mne
 import matplotlib.pyplot as plt  
 
 #  โหลดไฟล์ FIF
-raw = mne.io.read_raw_fif("C:\\Users\\s\\Desktop\\NewLSL\\LabStreamingLayer\\Python_fif\\eeg_data_Unicorn_raw_หลับ20250304_134357.fif", preload=True)
+raw = mne.io.read_raw_fif("C:\\Users\\BCILAB_QEEG_Com2\\Desktop\\LabStreamingLayer\\ขยับตัว_raw.fif", preload=True)
+
+"""
+# สำหรับ Chek ค่าที่ได้ ก่อน plot #
+
+# ดึงข้อมูลทั้งหมดจาก raw object
+data = raw.get_data()
+
+# ดึงชื่อช่องทั้งหมด
+channel_names = raw.info['ch_names']
+
+# พิมพ์ค่าของแต่ละช่องสัญญาณ
+for i, ch_name in enumerate(channel_names):
+    print(f"Channel {ch_name} (index {i+1}):")
+    # แสดงข้อมูลของแต่ละช่องสัญญาณ
+    print(f"{data[i, :10]} ... {data[i, -10:]}")  # แสดงค่าช่องสัญญาณ 10 ค่าแรกและ 10 ค่าสุดท้าย
+    print("\n" + "="*50 + "\n")  # คั่นระหว่างช่อง
+
+"""
 
 # ทำการกรองสัญญาณ notch และ Bandpass
 raw.notch_filter(50, fir_design='firwin')
@@ -17,10 +35,7 @@ channels_to_display = raw_eeg.info['ch_names'][:8]  # เลือก 8 ช่�
 raw_eeg = raw_eeg.pick_channels(channels_to_display)
 
 # ใช้ MNE แสดงกราฟ
-raw.plot(duration=10, n_channels=8, scalings=10000, title='EEG หลับ Signals')
-
-# เซฟกราฟเป็นไฟล์ PNG
-plt.savefig("EEG_หลับ_py.png")
+raw.plot(duration=10, n_channels=8, scalings=50, title='EEG หลับ Signals')
 
 # แสดงกราฟ วาดกราฟ 2D ผ่าน raw.plot()
 plt.show()  # เพื่อแสดงกราฟ

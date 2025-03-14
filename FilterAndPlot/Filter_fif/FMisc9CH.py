@@ -1,4 +1,3 @@
-
 #ไฟล์ที่เก็บจาก python LSL
 import mne
 import pandas as pd
@@ -6,7 +5,25 @@ import matplotlib.pyplot as plt
 
 
 #  โหลดไฟล์ FIF
-raw = mne.io.read_raw_fif("C:\\users\\s\\Desktop\\NewLSL\\LabStreamingLayer\\Python_fif\\eeg_data_Unicorn_raw_นั่งนิ่ง20250304_135321.fif", preload=True)
+raw = mne.io.read_raw_fif("C:\\Users\\BCILAB_QEEG_Com2\\Desktop\\LabStreamingLayer\\ขยับตัว_raw.fif", preload=True)
+
+"""
+# สำหรับ Chek ค่าที่ได้ ก่อน plot #
+
+# ดึงข้อมูลทั้งหมดจาก raw object
+data = raw.get_data()
+
+# ดึงชื่อช่องทั้งหมด
+channel_names = raw.info['ch_names']
+
+# พิมพ์ค่าของแต่ละช่องสัญญาณ
+for i, ch_name in enumerate(channel_names):
+    print(f"Channel {ch_name} (index {i+1}):")
+    # แสดงข้อมูลของแต่ละช่องสัญญาณ
+    print(f"{data[i, :10]} ... {data[i, -10:]}")  # แสดงค่าช่องสัญญาณ 10 ค่าแรกและ 10 ค่าสุดท้าย
+    print("\n" + "="*50 + "\n")  # คั่นระหว่างช่อง
+
+"""
 
 # ทำการกรองสัญญาณ notch และ Bandpass
 raw.notch_filter(50, fir_design='firwin')
@@ -21,13 +38,11 @@ channels_to_display_next = raw_eeg.info['ch_names'][8:17]  # ช่องที�
 raw_eeg_next = raw_eeg.pick_channels(channels_to_display_next)
 
 # ใช้ MNE แสดงกราฟ
-raw.plot(duration=10, n_channels=9, scalings=50, title='Misc นั่งนิ่ง Signals')
-
-# เซฟกราฟเป็นไฟล์ PNG
-plt.savefig("Misc_นั่งนิ่ง_py.png")
+raw.plot(duration=10, n_channels=9, scalings=10, title='Misc นั่งนิ่ง Signals')
 
 # แสดงกราฟ วาดกราฟ 2D ผ่าน raw.plot()
 plt.show()  # ใช้ plt.show() เพื่อแสดงกราฟ
+
 
 
 
