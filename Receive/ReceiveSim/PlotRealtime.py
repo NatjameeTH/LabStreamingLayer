@@ -131,7 +131,7 @@ def main():
 
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QGuiApplication.instance().exec_()
+        QtGui.QGuiApplication.instance().exec()
 
 if __name__ == "__main__":
-    main()
+    main() 

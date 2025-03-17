@@ -1,0 +1,35 @@
+# 
+import mne
+import pandas as pd
+import matplotlib.pyplot as plt  
+
+#  โหลดไฟล์ FIF
+raw = mne.io.read_raw_fif("C:\\Users\\BCILA\Desktop\\LSL\\LabStreamingLayer\\Test_raw_20250317_124405.fif", preload=True)
+
+"""
+# สำหรับ Chek ค่าที่ได้ ก่อน plot #
+
+# ดึงข้อมูลทั้งหมดจาก raw object
+data = raw.get_data()
+
+# ดึงชื่อช่องทั้งหมด
+channel_names = raw.info['ch_names']
+
+# พิมพ์ค่าของแต่ละช่องสัญญาณ
+for i, ch_name in enumerate(channel_names):
+    print(f"Channel {ch_name} (index {i+1}):")
+    # แสดงข้อมูลของแต่ละช่องสัญญาณ
+    print(f"{data[i, :10]} ... {data[i, -10:]}")  # แสดงค่าช่องสัญญาณ 10 ค่าแรกและ 10 ค่าสุดท้าย
+    print("\n" + "="*50 + "\n")  # คั่นระหว่างช่อง
+
+"""
+
+# ทำการกรองสัญญาณ notch และ Bandpass
+raw.notch_filter(50, fir_design='firwin')
+raw.filter(l_freq=0.5, h_freq=30, fir_design='firwin')
+
+# ใช้ MNE แสดงกราฟ
+raw.plot(duration=10, n_channels=17, scalings=100, title='EEG & Misc Signals')
+
+# แสดงกราฟ วาดกราฟ 2D ผ่าน raw.plot()
+plt.show()  # ใช้ plt.show() เพื่อแสดงกราฟ
