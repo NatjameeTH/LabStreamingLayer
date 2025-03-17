@@ -18,7 +18,7 @@ import os
 PLOT_DURATION = 5  # จำนวนวินาทีของข้อมูลที่จะแสดงในแต่ละครั้ง (5 วินาทีล่าสุด)
 UPDATE_INTERVAL = 60  #กราฟจะถูกรีเฟรชหรืออัปเดตทุกๆ 60 ms
 PULL_INTERVAL = 500  
-CHANNEL_OFFSET = 6000 
+CHANNEL_OFFSET = 600000 
 FIF_FILE = "Test_raw.fif"
 
 class Inlet:
@@ -230,7 +230,7 @@ def main():
 
     import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        QtGui.QGuiApplication.instance().exec_()
+        QtGui.QGuiApplication.instance().exec()
 
     save_to_mne(data_inlets, marker_inlets)
 

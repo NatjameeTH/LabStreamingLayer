@@ -87,4 +87,4 @@ timer_marker.timeout.connect(send_marker)
 timer_marker.start(5000)  # 5000 milliseconds = 5 seconds
 
 # เริ่ม GUI event loop
-app.exec_()
+app.exec() 
