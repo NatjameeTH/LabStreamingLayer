@@ -85,6 +85,11 @@ def main():
         plt.title('EEG Signals By Brainmaster')
         plt.legend(loc='upper right')
         plt.grid(True)
+
+        # บันทึกกราฟเป็นไฟล์ PNG หลังจาก plot
+        plt.savefig('plot.png', dpi=300, bbox_inches='tight')
+
+        # แสดงกราฟ
         plt.show()
 
 if __name__ == '__main__':
