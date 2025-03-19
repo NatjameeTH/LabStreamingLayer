@@ -15,8 +15,8 @@ import os
 PLOT_DURATION = 5  # จำนวนวินาทีของข้อมูลที่จะแสดงในแต่ละครั้ง (5 วินาทีล่าสุด)
 UPDATE_INTERVAL = 60  #กราฟจะถูกรีเฟรชหรืออัปเดตทุกๆ 60 ms
 PULL_INTERVAL = 500  
-CHANNEL_OFFSET = 6000 
-FIF_FILE = "Test_raw.fif"
+CHANNEL_OFFSET = 6000
+FIF_FILE = "UnicornTestt_raw.fif"
 
 class Inlet:
     def __init__(self, info: pylsl.StreamInfo):
@@ -63,7 +63,7 @@ class DataInlet(Inlet):
         samples, timestamps = self.inlet.pull_chunk(timeout=0.0, max_samples=self.buffer.shape[0])
         
         #  พิมพ์ค่าของ samples และ timestamps ที่ได้รับมา
-        print(f"Raw samples: {samples}")
+        #print(f"Raw samples: {samples}")
         #print(f"Raw timestamps: {timestamps}")
 
         if timestamps and samples:
@@ -71,8 +71,8 @@ class DataInlet(Inlet):
             y = np.array(samples)  # แปลงเป็น numpy array เพื่อให้สามารถจัดการได้ง่าย
 
             # ตรวจสอบขนาดของข้อมูล
-            print(f"Shape of timestamps: {timestamps.shape}")
-            print(f"Shape of y: {y.shape}")
+            #print(f"Shape of timestamps: {timestamps.shape}")
+            #print(f"Shape of y: {y.shape}")
 
             if y.shape[1] != self.channel_count:
                 print(f"Warning: Received {y.shape[1]} channels, expected {self.channel_count}")
@@ -82,21 +82,21 @@ class DataInlet(Inlet):
             self.data.extend(zip(timestamps, y))  # เพิ่มข้อมูลใหม่ใน self.data
 
             # พิมพ์ข้อมูลที่ถูกเพิ่มเข้าไปใน self.data
-            print(f"Extended data (first 5 entries): {list(zip(timestamps, y))[:5]}")
+            #print(f"Extended data (first 5 entries): {list(zip(timestamps, y))[:5]}")
 
             # อัปเดตข้อมูลใน curves
             for ch_ix in range(self.channel_count):
                 old_x, old_y = self.curves[ch_ix].getData()
 
                 # พิมพ์ขนาดของ old_x และ old_y
-                print(f"Channel {ch_ix} - old_x shape: {old_x.shape}, old_y shape: {old_y.shape}")
+                #print(f"Channel {ch_ix} - old_x shape: {old_x.shape}, old_y shape: {old_y.shape}")
 
                 # สร้าง new_x และ new_y โดยการเชื่อมข้อมูลเก่าและข้อมูลใหม่
                 new_x = np.hstack((old_x, timestamps))  # เพิ่ม timestamps ใหม่
                 new_y = np.hstack((old_y, y[:, ch_ix]))  # เพิ่มข้อมูลใหม่ของช่องที่ ch_ix
 
                 #  พิมพ์ขนาดของ new_x และ new_y
-                print(f"Channel {ch_ix} - new_x shape: {new_x.shape}, new_y shape: {new_y.shape}")
+                #print(f"Channel {ch_ix} - new_x shape: {new_x.shape}, new_y shape: {new_y.shape}")
 
                 # อัปเดตข้อมูลใน curve
                 self.curves[ch_ix].setData(new_x, new_y)
