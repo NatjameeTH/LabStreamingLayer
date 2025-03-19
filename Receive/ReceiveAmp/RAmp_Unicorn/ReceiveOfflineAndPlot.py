@@ -6,6 +6,14 @@ import time
 import matplotlib.pyplot as plt
 from pylsl import StreamInlet, resolve_streams
 
+# กำหนดชื่อช่องสัญญาณ
+channel_names = [
+    'EEG 1', 'EEG 2', 'EEG 3', 'EEG 4', 'EEG 5', 'EEG 6', 'EEG 7', 'EEG 8',
+    'Accelerometer X', 'Accelerometer Y', 'Accelerometer Z',
+    'Gyroscope X', 'Gyroscope Y', 'Gyroscope Z',
+    'Battery Level', 'Counter', 'Validation Indicator'
+]
+
 def main():
     print("🔍 Looking for all streams...")
 
@@ -58,8 +66,8 @@ def main():
 
     # วาดกราฟแบบไม่ซ้อนกัน
     if all_stream_data:
-        plt.figure(figsize=(12, 6))
-        cmap = plt.colormaps["tab10"]  # หรือใช้ plt.colormaps.get_cmap("tab10")  # ใช้สีจาก colormap
+        plt.figure(figsize=(12, 8))
+        cmap = plt.colormaps["tab10"]  # ใช้สีจาก colormap
 
         for idx, stream_data in enumerate(all_stream_data):
             timestamps = stream_data[:, 0]  
@@ -69,12 +77,13 @@ def main():
             num_channels = signal_values.shape[1]
 
             for i in range(num_channels):
-                offset = i * 50  # เพิ่ม offset ทีละ X หน่วยให้แต่ละช่อง
-                plt.plot(timestamps, signal_values[:, i] + offset, label=f'CH{i+1}', color=cmap(i % 10))
+                offset = (num_channels - i - 1) * 50000  # กำหนด offset ให้เรียงจากบนลงล่าง
+                label = channel_names[i] if i < len(channel_names) else f'CH{i+1}'
+                plt.plot(timestamps, signal_values[:, i] + offset, label=label, color=cmap(i % 10))
 
         plt.xlabel('Time (s)')
         plt.ylabel('Amplitude ')
-        plt.title('EEG Signals')
+        plt.title('EEG Signals By Unicorn')
         plt.legend()
         plt.grid(True)
         plt.show()
