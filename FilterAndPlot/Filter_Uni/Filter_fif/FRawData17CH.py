@@ -1,10 +1,10 @@
-# 
+# Filter สัญญาณที่บันทึกเป็นไฟล์ fif (17 ช่อง)
 import mne
 import pandas as pd
 import matplotlib.pyplot as plt  
 
 #  โหลดไฟล์ FIF
-raw = mne.io.read_raw_fif("C:\\Users\\BCILAB_QEEG_Com2\\Desktop\\LabStreamingLayer\\ขยับตัว_raw.fif", preload=True)
+raw = mne.io.read_raw_fif("C:\\Users\\s\\Desktop\\NewLSL\\UnicornFIF\\ขยับตัว_raw.fif", preload=True)
 
 """
 # สำหรับ Chek ค่าที่ได้ ก่อน plot #
