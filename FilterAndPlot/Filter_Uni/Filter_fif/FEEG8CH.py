@@ -1,9 +1,9 @@
-#ไฟล์ที่เก็บจาก python LSL
+# Filter สัญญาณที่บันทึกเป็นไฟล์ fif (8 ช่อง)
 import mne
 import matplotlib.pyplot as plt  
 
 #  โหลดไฟล์ FIF
-raw = mne.io.read_raw_fif("C:\\Users\\BCILAB_QEEG_Com2\\Desktop\\LabStreamingLayer\\ขยับตัว_raw.fif", preload=True)
+raw = mne.io.read_raw_fif("C:\\Users\\s\\Desktop\\NewLSL\\UnicornFIF\\ขยับตัว_raw.fif", preload=True)
 
 """
 # สำหรับ Chek ค่าที่ได้ ก่อน plot #
@@ -35,9 +35,10 @@ channels_to_display = raw_eeg.info['ch_names'][:8]  # เลือก 8 ช่�
 raw_eeg = raw_eeg.pick_channels(channels_to_display)
 
 # ใช้ MNE แสดงกราฟ
-raw.plot(duration=10, n_channels=8, scalings=50, title='EEG หลับ Signals')
+raw.plot(duration=10, n_channels=8, scalings=50, title='EEG ขยับตัว Signals')
 
 # แสดงกราฟ วาดกราฟ 2D ผ่าน raw.plot()
 plt.show()  # เพื่อแสดงกราฟ
+
 
 
