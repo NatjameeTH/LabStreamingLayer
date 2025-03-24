@@ -1,4 +1,4 @@
-
+# ตัวอย่างการสร้าง Sine graph
 import numpy as np
 import matplotlib.pyplot as plt
 
