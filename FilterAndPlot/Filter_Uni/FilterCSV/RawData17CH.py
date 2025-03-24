@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt  
 
 # โหลดข้อมูลจากไฟล์ CSV
-df = pd.read_csv("C:\\Users\\BCILAB_QEEG_Com2\\Desktop\\LabStreamingLayer\\UnicornRecorder_2(ขยับตัว)20250304_132815.csv")
+df = pd.read_csv(r'C:\Users\s\Desktop\NewLSL\UnicornCSV\UnicornRecorder_2(ขยับตัว)20250304_132815.csv')
 
 # สร้าง Info สำหรับ Channel 
 channel_names = ['EEG 1', 'EEG 2', 'EEG 3', 'EEG 4', 'EEG 5', 'EEG 6', 'EEG 7', 'EEG 8', 
