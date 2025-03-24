@@ -1,5 +1,5 @@
 ## Plot เป็น กราฟ sine และ Realtime  
-## ส่งกราฟไป Lab Recorder
+## ส่งข้อมูลที่ Plot แบบ Realtime ไปบันทึกใน Lab Recorder
 import time
 import numpy as np
 import pyqtgraph as pg
@@ -35,7 +35,7 @@ plot.setLabel('left', 'Amplitude')
 plot.setLabel('bottom', 'Time', units='s')
 
 # สร้างเส้นกราฟ 4 ช่องสัญญาณ
-colors = ['w', 'w', 'w', 'w', 'w', 'w']  # กำหนดสีพื้นฐาน
+colors = ['w', 'w', 'w', 'w', 'w', 'w']  # กำหนดสีพื้นฐานเป็นสีขาว
 curves = [plot.plot(pen=pg.mkPen(colors[i % len(colors)], width=2), name=f"Channel {i+1}") for i in range(channel_count)] # เพิ่มชื่อ channel
 data = np.zeros((channel_count, 500))  # Buffer ขนาด 500 จุด
 offsets = np.arange(channel_count) * 5  # ทำให้เส้นกราฟแต่ละช่องไม่ทับกัน
