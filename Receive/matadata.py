@@ -29,8 +29,8 @@ def get_stream_metadata():
     cap_size = info.desc().child("cap").child_value("size") if info.desc().child("cap") else None
     print(f"Cap circumference: {cap_size if cap_size else ' Not found'}")
 
-    # 📡 แสดงข้อมูลช่องสัญญาณ EEG
-    print("\n📡 Channel labels:")
+    #  แสดงข้อมูลช่องสัญญาณ EEG
+    print("\n Channel labels:")
     channels = info.desc().child("channels") if info.desc() else None
 
     if channels:
@@ -46,9 +46,9 @@ def get_stream_metadata():
         if channel_labels:
             print("  " + ", ".join(channel_labels))
         else:
-            print("⚠️ No channel labels found.")
+            print(" No channel labels found.")
     else:
-        print("⚠️ No channel metadata found.")
+        print("No channel metadata found.")
 
 if __name__ == '__main__':
     get_stream_metadata()
