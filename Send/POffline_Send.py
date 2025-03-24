@@ -1,5 +1,5 @@
-
 #Plot sine graph และ Marker
+#ข้อมูลที่ Plot มาจากไฟล์ SendData.py 
 import pyxdf
 import numpy as np
 import matplotlib.pyplot as plt
@@ -25,7 +25,7 @@ def find_eeg_stream(streams):
     return None
 
 def find_marker_stream(streams):
-    """ ค้นหา Stream ที่เป็น Marker หรือ Event """
+    """ ค้นหา Stream ที่เป็น Marker """
     for stream in streams:
         if 'type' in stream['info'] and 'Markers' in stream['info']['type']:
             return stream
@@ -66,8 +66,8 @@ def plot_eeg_signal(timestamps, eeg_data, num_channels=24, time_window=10, marke
 
     plt.show()
 
-#  กำหนดพาธไฟล์ XDF
-file_path = "C:\\Users\\s\\Desktop\\LSL_File\\sub-26-2\\ses-S008(24CH_Sr250)\\eeg\\sub-26-2_ses-S008(24CH_Sr250)_task-Default_run-001_eeg.xdf"
+#  กำหนดพาธไฟล์ XDF ที่บันทึกจาก Lab Recorder
+file_path = r'C:\users\s\Desktop\LSL_File\sub-24-3\ses-S001\eeg\sub-24-3_ses-S001_task-Default_run-001_eeg.xdf'
 
 # โหลดไฟล์ XDF
 streams, header = load_xdf_file(file_path)
@@ -80,7 +80,7 @@ if eeg_stream is None:
     print(" ไม่พบ Stream EEG ในไฟล์ XDF")
     exit()
 
-# เลือก Stream ที่เป็น Marker หรือ Event
+# เลือก Stream ที่เป็น Marker 
 marker_stream = find_marker_stream(streams)
 markers = np.array(marker_stream['time_stamps']) if marker_stream else []
 
@@ -93,7 +93,7 @@ if eeg_data.size == 0 or timestamps.size == 0:
     print(" ไม่มีข้อมูลใน Stream EEG")
     exit()
 
-# บันทึกข้อมูล EEG เป็นไฟล์ .npy
+# บันทึกข้อมูล EEG เป็นไฟล์ .npy เพื่อนำไฟล์ไป plot แบบ Realtime ได้ 
 np.save("eeg_data.npy", eeg_data)
 np.save("timestamps.npy", timestamps)
 print(f" บันทึกข้อมูลสำเร็จ EEG shape: {eeg_data.shape}, Timestamps shape: {timestamps.shape}")
