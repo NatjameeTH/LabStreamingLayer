@@ -1,8 +1,7 @@
-
-#sendata ที่เป็น array และเป็นคลื่น sine
+#ส่งข้อมูล ที่เป็น array และเป็นคลื่น sine
 #เพิ่ม Marker event 
 import sys
-import getopt
+import getopt #รับค่าอากิวเมนต์ 
 import time
 import math
 import numpy as np
@@ -45,7 +44,7 @@ def main(argv):
     marker_info = StreamInfo('MarkerStream_Offline', 'Markers', 1, 0, 'string', 'markeruid123')
     marker_outlet = StreamOutlet(marker_info)
 
-    print("Now sending sine wave data with trigger markers...")
+    print("Now sending sine wave data with markers...")
 
     # elapsed_time เวลาที่ผ่านไป (วินาที)
     # required_samples จำนวนตัวอย่างที่ส่ง
@@ -59,7 +58,7 @@ def main(argv):
             print(f"Elapsed Time: {elapsed_time:.3f} sec, Required Samples: {required_samples}")
 
             # ส่ง Marker จะแสดงทุก 5 วินาที
-            if elapsed_time % 5.0 < 0.01: # ส่ง trigger marker เมื่อเวลาผ่านไป 5 วินาที # หาร 5 ลงตัวหรือไม่ อาจมีคาดเคลื่อนด้วยได้
+            if elapsed_time % 5.0 < 0.01: # ส่ง marker เมื่อเวลาผ่านไป 5 วินาที # หาร 5 ลงตัวหรือไม่ อาจมีคาดเคลื่อนด้วยได้
                 marker_outlet.push_sample(["Start"])
                 print("Sent marker: Start")
 
