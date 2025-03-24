@@ -16,7 +16,7 @@ PLOT_DURATION = 5  # จำนวนวินาทีของข้อมู�
 UPDATE_INTERVAL = 60  #กราฟจะถูกรีเฟรชหรืออัปเดตทุกๆ 60 ms
 PULL_INTERVAL = 500  
 CHANNEL_OFFSET = 9  
-FIF_FILE = "Test1m_raw.fif"
+FIF_FILE = "Sim_raw.fif"
 
 class Inlet:
     def __init__(self, info: pylsl.StreamInfo):
