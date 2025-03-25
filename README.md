@@ -16,15 +16,18 @@
 
 ```bash
 git clone https://github.com/labstreaminglayer/pylsl.git
-
 cd LabStreamingLayer
-
 pip install pylsl
 
 pip install numpy 
 
 pip install matplotlib
 
+pip install PyQt5
+
+pip install mne
+
+pip install pandas
 ```
 ---
 
