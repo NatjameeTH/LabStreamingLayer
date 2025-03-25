@@ -1,5 +1,5 @@
 # รับสัญญาณ จาก OpenViBe Acquisition Server (LSL: LabRecorder)
-# โดยใช้ Driver -> Generic Oscillator ใช้สร้างสัญญาณคลื่นแบบจำลอง  
+# โดยใช้ Driver -> Generic Oscillator ใช้สร้างคลื่นสัญญาณแบบจำลอง  
 
 
 import numpy as np
