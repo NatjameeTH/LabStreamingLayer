@@ -3,7 +3,7 @@
 - **Lab Streaming Layer (LSL)** เป็นโปรโตคอลสำหรับการส่งข้อมูลแบบเรียลไทม์ โดยใช้ในงานวิจัยทางประสาทวิทยาศาสตร์, การวิเคราะห์ EEG, การทดลองทางจิตวิทยา และการประมวลผลข้อมูลทางชีวภาพ (biosignal processing)
 
 - **LSL** ให้สามารถซิงค์ข้อมูลจากอุปกรณ์ต่าง ๆ ได้อย่างแม่นยำ และส่งข้อมูลไปยังซอฟต์แวร์วิเคราะห์ได้อย่างมีประสิทธิภาพ
-โดยใช้ไลบารี **pylsl** ในการรับส่งข้อมูล 
+โดยใช้ไลบารี ```pylsl``` ในการรับส่งข้อมูล 
 
 ---
 
@@ -20,6 +20,10 @@ git clone https://github.com/labstreaminglayer/pylsl.git
 cd LabStreamingLayer
 
 pip install pylsl
+
+pip install numpy 
+
+pip install matplotlib
 
 ```
 ---
