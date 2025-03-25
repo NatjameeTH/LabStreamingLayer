@@ -11,8 +11,7 @@
 
 ---
 
-## Installation 
-ขั้นตอนในการติดตั้ง 
+## Installation (ขั้นตอนในการติดตั้ง) 
 
 ```bash
 git clone https://github.com/labstreaminglayer/pylsl.git
