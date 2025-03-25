@@ -10,7 +10,9 @@
 
 ---
 
-
+## Reference
+- **Lab Streaming Layer GitHub Repository:** 
+🔗  https://github.com/labstreaminglayer/pylsl.git
 
 
 
