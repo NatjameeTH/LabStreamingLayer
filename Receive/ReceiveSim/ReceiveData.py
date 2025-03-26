@@ -11,7 +11,7 @@ def main():
     signal_streams = resolve_streams()  # ค้นหา streams ทั้งหมด
     marker_streams = resolve_streams()  # ค้นหา streams ทั้งหมด
 
-    # กรอง streams ตามชื่อ
+    # กรอง streams ตามชื่อในที่แสดงใน OpenVibe 
     signal_stream = next((s for s in signal_streams if s.name() == 'openvibeSignal'), None)
     marker_stream = next((s for s in marker_streams if s.name() == 'openvibeMarkers'), None)
 
