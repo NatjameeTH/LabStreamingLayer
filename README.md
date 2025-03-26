@@ -25,7 +25,7 @@ pip install numpy
 
 pip install matplotlib
 
-pip install PyQt5
+pip install pyqtgraph
 
 pip install mne
 
