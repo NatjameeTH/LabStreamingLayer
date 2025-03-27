@@ -77,6 +77,7 @@ class MarkerInlet(Inlet):
         self.marker_line = pg.InfiniteLine(angle=90, movable=False, pen=pg.mkPen(color='green', width=2))
         plt.addItem(self.marker_line)
         self.markers = []
+        
 
     def pull_and_plot(self, plot_time, plt):
         strings, timestamps = self.inlet.pull_chunk(timeout=0.0)
@@ -85,6 +86,9 @@ class MarkerInlet(Inlet):
             self.marker_line.setPos(closest_ts)
             marker_value = "Event 1"
             self.markers.append((closest_ts, marker_value))
+
+            
+            print("Markers:", np.array(self.markers))
 
 
 def save_to_mne(data_inlets, marker_inlets):
